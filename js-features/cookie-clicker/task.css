@@ -1,0 +1,7 @@
+.clicker__cookie {
+  width: 200px;
+}
+
+.clicker__cookie.big {
+  width: 250px;
+}
