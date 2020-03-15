@@ -1,14 +1,10 @@
 function popups() {
   // Считаем модалы
-  const modals = document.querySelectorAll('.modal');
-  const arrModals = Array.from(modals);
+  const arrModals = Array.from(document.querySelectorAll('.modal'));
   // Находим первый и показываем его
-  const modalFirst = arrModals[0];
-  modalFirst.className = 'modal modal_active';
-  const buttonsClose = document.querySelectorAll('.modal__close_times');
-  const arrButtonsClose = Array.from(buttonsClose);
-  const buttonsNext = document.querySelectorAll('.btn');
-  const arrButtonsNext = Array.from(buttonsNext);   
+  arrModals[0].className = 'modal modal_active';
+  const arrButtonsClose = Array.from(document.querySelectorAll('.modal__close_times'));
+  const arrButtonsNext = Array.from(document.querySelectorAll('.btn'));   
   
   let modalCurrent = null;
   let modalCurrentIndex = null;   
@@ -18,7 +14,6 @@ function popups() {
   const checkParentIsModalCurrent = (el) => el.parentElement.parentElement === modalCurrent;
   
   checkModalCurrent();
-  checkModalCurrentIndex()
   checkBtnCloseCurrent();
   checkBtnNextCurrent();
 
@@ -28,9 +23,6 @@ function popups() {
   };  
 
   btn_next_current.onclick = () => {
-    
-    console.log(btn_close_current.textContent);
-
     arrModals[modalCurrentIndex].className = 'modal'; 
     modalCurrentIndex += 1;
     if( nextModalIndex < arrModals.length ) {
@@ -38,18 +30,16 @@ function popups() {
       arrModals[nextModalIndex].className = 'modal modal_active';
       nextModalIndex += 1;
       checkModalCurrent();
-      checkModalCurrentIndex();
       checkBtnCloseCurrent();
-      checkBtnNextCurrent();
-      checkNextModalIndex();
-      
+      checkBtnNextCurrent();   
     console.log(`Чекаем кнопки ещё раз ${btn_close_current.textContent} ${btn_next_current.textContent}`);
     }
   };
 
   function checkModalCurrent() {
-    modalCurrent = arrModals.find( (el) => el.className === 'modal modal_active' );    
-    console.log(`checkModalCurrent indexOf ${arrModals.indexOf(modalCurrent)}`)
+    modalCurrent = arrModals.find( (el) => el.className === 'modal modal_active' );
+    modalCurrentIndex = arrModals.indexOf(modalCurrent );    
+    console.log(`checkModalCurrent indexOf ${modalCurrentIndex}`)
   }
   function checkBtnCloseCurrent() {
     btn_close_current = arrButtonsClose.find( checkParentIsModalCurrent );       
@@ -58,14 +48,6 @@ function popups() {
   function checkBtnNextCurrent() {
     btn_next_current = arrButtonsNext.find( checkParentIsModalCurrent );       
     console.log(`checkBtnNextCurrent ${btn_next_current.textContent}`)
-  }
-  function checkNextModalIndex() {
-    nextModalIndex = arrModals.indexOf(modalCurrent) + 1;
-    console.log(`checkNextModalIndex ${nextModalIndex}`);
-  }
-  function checkModalCurrentIndex() {
-    modalCurrentIndex = arrModals.indexOf(modalCurrent );
-    console.log(`checkModalCurrentIndex ${modalCurrentIndex}`);
   }
 };
 
