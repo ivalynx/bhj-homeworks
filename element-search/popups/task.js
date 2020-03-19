@@ -7,7 +7,8 @@ function popups() {
   const btnSuccess = document.querySelector('.btn_success');
   modalFirst.className = 'modal modal_active';
   
-  btnsClose.onclick = closeModal;
+  btnsClose[0].onclick = closeModal;
+  btnsClose[1].onclick = closeModal;
   btnSuccess.onclick = closeModal; 
   btnNextModal.onclick = () => {
     modalFirst.className = 'modal';
