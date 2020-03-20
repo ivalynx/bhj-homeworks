@@ -7,9 +7,9 @@ function menu() {
   menuLinks.onclick = clickMenu;
 
   function clickMenu() {
-    let thisSubMenu = this.nextElementSibling;
+    let thisSubMenu = this.parentElement.hasChildNodes('.menu_sub');
     if(thisSubMenu) {
-      thisSubMenu.className = 'menu_active';
+      // thisSubMenu.className = 'menu_active'; because thisSubMenu boolean
       return false;
     }
   };
