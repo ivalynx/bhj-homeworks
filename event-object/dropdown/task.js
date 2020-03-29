@@ -15,6 +15,7 @@ function dropdown() {
   };
   function changeButton(event) {  
     event.target.closest('.dropdown__list').previousElementSibling.textContent = event.target.textContent;
+    event.target.closest('.dropdown__list').classList.remove('dropdown__list_active');
     event.preventDefault();
   }
 };
