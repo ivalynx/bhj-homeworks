@@ -3,32 +3,33 @@
 function ads() {
   const rotators = Array.from(document.querySelectorAll('.rotator'));
   let delay = 1000;
-  let index = 0;
-  let previousIndex = -1;
-  const nextIndex = 0;
-  let lastIndex = null;
+  let currentCase = null;
+  let currentCaseIndex = null;
+  let rotated = null;
+  for(let i = 0; i < rotators.length; i++) {
+    rotators[i].querySelector('.rotator__case_active').style.color = rotators[i].querySelector('.rotator__case_active').dataset.color;
+  }
 
-  rotators.forEach( rotator => Array.from(rotator.querySelectorAll('.rotator__case')).forEach( (el, index, array) => setInterval(changeRotators(el, index, array), delay) ));
-
-  function changeRotators(el, index, array) {
-    delay = el.dataset.speed;
-    el.style.color = el.dataset.color;
-    // console.log(`el: ${el},\n index: ${index}, \n array: ${array} \n previousIndex = ${previousIndex}`);
-    if( previousIndex >= 0) {
-      array[previousIndex].classList.remove('rotator__case_active');
-    } else {
-      lastIndex = array.length - 1;
-      array[lastIndex].classList.remove('rotator__case_active');
-    };
-    previousIndex += 1;
-    index += 1;
-    if( index === array.length ) {
-      index = nextIndex;
-      previousIndex = -1;
-    };
-    el.classList.toggle('rotator__case_active');
-    // console.log(`index: ${index}, \n array: ${array} \n previousIndex = ${previousIndex}`);
+  intervalID = setInterval(changeRotators, delay);
+  
+  function changeRotators() {
+    rotated += 1;
+    for(let i = 0; i < rotators.length; i++) {
+      const cases = Array.from(rotators[i].querySelectorAll('.rotator__case'));
+      currentCase = rotators[i].querySelector('.rotator__case_active');
+      currentCaseIndex = cases.indexOf(currentCase);
+      if( currentCaseIndex === cases.length - 1 ) {
+        cases[0].classList.add('rotator__case_active');
+      } else {
+        currentCase.nextElementSibling.classList.add('rotator__case_active');
+      }
+      currentCase.classList.remove('rotator__case_active');
+      currentCase = rotators[i].querySelector('.rotator__case_active');
+      delay = currentCase.dataset.speed;
+      currentCase.style.color = currentCase.dataset.color;
+    }
   };
+
 };
 
 document.addEventListener('DOMContentLoaded', ads);
