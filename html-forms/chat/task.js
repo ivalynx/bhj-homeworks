@@ -28,7 +28,6 @@ function chat() {
         `
         chatWidgetInput.value = '';
         let index = Math.round(Math.random() * botMessages.length) - 1;
-        console.log(index);
         const botMessage = botMessages[index];
         chatWidgetMessages.innerHTML += `
           <div class="message">
