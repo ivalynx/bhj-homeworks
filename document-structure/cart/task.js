@@ -1,9 +1,38 @@
 'use string'
 
 function cart() {
-  const basket = document.querySelector('.cart__products');
-  const products = document.querySelectorAll('.product');
+  class Cart {
+    constructor() {
+      this.productsInBasket = [];
+    }
+    add(id, title, src, quantity) {
+      const indexFound = this.productsInBasket.indexOf(this.productsInBasket.find( product => Object.values(product).includes(id) )); 
+      if( indexFound >= 0 ) {
+        this.productsInBasket[indexFound].quantity += quantity;
+        const productsInBasketEl = document.querySelectorAll('.cart__product');
+        productsInBasketEl[indexFound].querySelector('.cart__product-count').textContent = this.productsInBasket[indexFound].quantity;
+      } else {
+        this.productsInBasket.push({
+          id: id,
+          title: title, 
+          src: src, 
+          quantity: quantity,
+        });
+        const basket = document.querySelector('.cart__products');
+        const productInBasket = document.createElement('div');
+        productInBasket.dataset.id = id;
+        productInBasket.classList.add('cart__product');        
+        productInBasket.innerHTML += `
+          <img class="cart__product-image" src="${src}">
+          <div class="cart__product-count">${quantity}</div>
+        `;
+        basket.appendChild(productInBasket);
+      };
+    };
+  };
 
+  const cart = new Cart();
+  const products = document.querySelectorAll('.product');
 
   for(const product of products) {
     product.addEventListener('click', doCart); 
@@ -23,50 +52,13 @@ function cart() {
       quantityNumber += 1;
       quantity.textContent = quantityNumber;
     } else if( btn.classList.contains('product__add') ) { 
-        const productId = btn.closest('.product').dataset.id;
-        let cartProducts = Array.from(basket.querySelectorAll('cart__product'));
-        const index = cartProducts.findIndex( (el) => {
-          el.dataset.id == productId
-        });
-        console.log(index);
-        if( index >= 0 ) {
-          const quantityBasket = cartProducts[index].querySelector('.cart__product-count');
-          let quantityBasketNumber = Number(quantityBasket.textContent);
-          quantityBasketNumber += quantityNumber;
-          quantityBasket.textContent = quantityBasketNumber;
-        } else {    
-          const productInBasket = document.createElement('div');
-          productInBasket.dataset.id = productId;
-          productInBasket.classList.add('cart__product');
-          const imgSrc = btn.closest('.product').querySelector('.product__image').getAttribute('src');
-          productInBasket.innerHTML += `
-            <img class="cart__product-image" src="${imgSrc}">
-            <div class="cart__product-count">${quantity.textContent}</div>
-          `;
-          basket.appendChild(productInBasket);
-      };
+      const id = btn.closest('.product').dataset.id;
+      const title = btn.closest('.product').querySelector('.product__title').textContent.trim();
+      const src = btn.closest('.product').querySelector('.product__image').getAttribute('src');
+      cart.add(id, title, src, quantityNumber);
+      quantity.textContent = 1;
     };
   };
 };
 
 document.addEventListener('DOMContentLoaded', cart);
-
-
-
-
-  // class Product {
-  //   constructor(element) {
-  //     this.name = element.querySelector('.product__title').textContent.trim();
-  //     this.img = element.querySelector('.product__image').getAttribute('src');
-  //     this.id = element.dataset.id;
-  //     this.quantity = element.querySelector('.product__quantity-value').textContent.trim();
-  //   }
-  // }
-
-  // let productsObj = [];
-
-  // for (const product of products) {
-  //   const productObj = new Product(product);
-  //   productsObj.push(productObj);
-  // };
-  // console.log(productsObj);
