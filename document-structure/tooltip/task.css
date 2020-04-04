@@ -1,4 +1,5 @@
 .has-tooltip {
+  position: relative;
   color: #000;
   background: yellow;
 }
@@ -8,7 +9,8 @@
 }
 
 .tooltip {
-  position: fixed;
+  position: absolute;
+  z-index: 1;
   display: none;
   background: black;
   padding: 5px;
@@ -17,5 +19,5 @@
 }
 
 .tooltip_active {
-  display: block;
+  display: inline;
 }

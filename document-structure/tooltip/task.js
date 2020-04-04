@@ -1,4 +1,4 @@
-'use string'
+'use strict'
 
 function tooltip() {
   const linksToTooltips = document.querySelectorAll('.has-tooltip');
@@ -7,20 +7,17 @@ function tooltip() {
   };
 
   function showTooltip(event) {
-    const link = event.target;
-    const otherTooltips = document.querySelectorAll('.tooltip');
-    for (const otherTooltip of otherTooltips) {
-      otherTooltip.remove();
-    };
-    const tooltip = document.createElement('div');
-    tooltip.classList.add('tooltip');
-    tooltip.textContent = link.getAttribute('title');
-    tooltip.style.display = 'block';
-    // tooltip.style.left = '0';
-    // tooltip.style.top = '0';
-    link.insertAdjacentElement('afterend', tooltip);
     event.preventDefault();
-  }
+    const link = event.target;
+    if( link.querySelector('.tooltip') ) {
+        link.querySelector('.tooltip').classList.toggle('tooltip_active');
+    } else {     
+      const tooltip = document.createElement('div');
+      tooltip.textContent = link.getAttribute('title');
+      tooltip.classList.add('tooltip', 'tooltip_active');
+      link.insertAdjacentElement('beforeEnd', tooltip);
+    } 
+  };
 };
 
 document.addEventListener('DOMContentLoaded', tooltip);
