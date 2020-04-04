@@ -1,4 +1,4 @@
-'use string'
+'use strict'
 
 function todo() {
   const inputTask = document.getElementById('task__input');
