@@ -1,24 +1,19 @@
 'use strict'
 
 function poll() {
-  const progress = document.getElementById( 'progress' );
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://netology-slow-rest.herokuapp.com/upload.php', true);
-  xhr.send();
-  xhr.onreadystatechange = () => {
-    if(xhr.readyState === XMLHttpRequest.OPENED) {
-      progress.value = 0.1;
+  const progress = document.getElementById('progress');
+  const form = document.getElementById('form');
+  const xhr = new XMLHttpRequest();
+  const formData = new FormData();
+  formData.append('file', 'file');
+  form.addEventListener('submit', event => {
+    xhr.open('GET', 'https://netology-slow-rest.herokuapp.com/upload.php', true);
+    xhr.onprogress = function(event) {
+      progress.value = event.loaded / 1000000;
     };
-    if(xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-      progress.value = 0.2;
-    };
-    if(xhr.readyState === XMLHttpRequest.LOADING) {
-      progress.value = 0.7;
-    };
-    if(xhr.readyState === XMLHttpRequest.DONE) {
-      progress.value = 1;
-    };
-  };
+    xhr.send(formData);
+    event.preventDefault();
+  });
 };
 
 document.addEventListener('DOMContentLoaded', poll);
