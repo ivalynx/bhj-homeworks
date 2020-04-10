@@ -8,9 +8,12 @@ function poll() {
   formData.append('file', 'file');
   form.addEventListener('submit', event => {
     xhr.open('GET', 'https://netology-slow-rest.herokuapp.com/upload.php', true);
-    xhr.onprogress = function(event) {
-      progress.value = event.loaded / 1000000;
+    xhr.upload.onprogress = function() {
+      progress.value = 1;
     };
+    // xhr.onprogress = function(event) {
+    //   progress.value = event.loaded / 1000000;
+    // };
     xhr.send(formData);
     event.preventDefault();
   });
